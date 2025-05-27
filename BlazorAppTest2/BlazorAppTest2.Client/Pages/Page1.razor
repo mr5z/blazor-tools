@@ -1,0 +1,31 @@
+﻿@inherits SubPage
+
+<div class="card">
+    <div class="card-header">
+        <h3>📄 Page 1</h3>
+    </div>
+    <div class="card-body">
+        <p>This is the first page. Enter some text:</p>
+        <input type="text" class="form-control" @bind="text" placeholder="Type something..." />
+
+        @if (!string.IsNullOrEmpty(text))
+        {
+            <div class="mt-2 alert alert-info">
+                You typed: <strong>@text</strong>
+            </div>
+        }
+
+        <button class="btn btn-success mt-3" @onclick="GoToPage2">
+            Go to Page 2 →
+        </button>
+    </div>
+</div>
+
+@code {
+    private string text = "";
+
+    private void GoToPage2()
+    {
+        NavigationService.NavigateTo<Page2>(this, new { Message = text });
+    }
+}

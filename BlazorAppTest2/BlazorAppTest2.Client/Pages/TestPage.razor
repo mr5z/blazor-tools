@@ -1,0 +1,44 @@
+﻿@page "/test"
+@rendermode InteractiveServer 
+
+@inject INavigationService NavigationService
+
+<div class="container mt-4">
+    <h1>Navigation Test</h1>
+
+    <div class="mb-3">
+        <button class="btn btn-secondary" @onclick="PreviousPage" disabled="@(!NavigationService.CanGoBack)">Previous Page</button>
+        <button class="btn btn-primary me-2" @onclick="NextPage">Next Page</button>
+    </div>
+
+    <NavigationPage @ref="Owner" />
+</div>
+
+@code {
+
+    public required NavigationPage Owner { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            NavigationService.RegisterRoot(Owner);
+            var result = NavigationService.NavigateTo<Page1>(Owner);
+            var a = result;
+        }
+    }
+
+    private void NextPage()
+    {
+        var result = NavigationService.NavigateTo<Page2>(Owner);
+        var a = result;
+    }
+
+    private void PreviousPage()
+    {
+        var result = NavigationService.GoBack(Owner);
+        var a = result;
+    }
+}
